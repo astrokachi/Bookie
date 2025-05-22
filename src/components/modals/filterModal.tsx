@@ -70,14 +70,14 @@ export function FilterModal() {
               return (
                 <div
                   key={item.id}
-                  className={\`flex cursor-pointer items-center justify-between rounded-md p-3 transition-colors duration-150 \${
+                  className={`flex cursor-pointer items-center justify-between rounded-md p-3 transition-colors duration-150 ${
                     isSelected
                       ? "bg-blue-50 text-blue-700"
                       : "hover:bg-neutral-50"
-                  }\`}
+                  }`}
                   onClick={() => handleItemSelect(item)}
                   style={{
-                    animation: \`fadeInUp 0.3s ease-out \${index * 0.05}s both\`,
+                    animation: `fadeInUp 0.3s ease-out ${index * 0.05}s both`,
                   }}
                 >
                   <span className="text-sm md:text-base">{item.name}</span>

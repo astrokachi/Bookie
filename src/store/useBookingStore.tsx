@@ -74,16 +74,6 @@ export const useBookingStore = create(
             filters: filters,
           }));
         },
-        setVehicleTypeFilters: (filters: Filter[]) => {
-          set(() => ({
-            vehicleTypeFilters: filters,
-          }));
-        },
-        setServiceTypeFilters: (filters: Filter[]) => {
-          set(() => ({
-            serviceTypeFilters: filters,
-          }));
-        },
         setSelectedFilters: (filters: Filter[]) => {
           set(() => ({
             selectedFilters: filters,

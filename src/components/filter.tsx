@@ -15,30 +15,34 @@ export function Filter({
     (state) => state.toggleFilterVisibility,
   );
   const selectedFilters = useBookingStore((state) => state.selectedFilters);
-  const vehicleTypeFilters = useBookingStore(state => state.vehicleTypeFilters);
-  const serviceTypeFilters = useBookingStore(state => state.serviceTypeFilters);
+  const vehicleTypeFilters = useBookingStore(
+    (state) => state.vehicleTypeFilters,
+  );
+  const serviceTypeFilters = useBookingStore(
+    (state) => state.serviceTypeFilters,
+  );
 
   const [isActive, setIsActive] = useState(false);
-
-  // Determine if this is a vehicle filter
   const isVehicleFilter = name.includes("Vehicle");
-  
-  // Get selected filters for the specific filter type
+
+  // const filterIds = filters.map((f) => f.name);
+
   const selectedFilterItems = useMemo(() => {
     if (isVehicleFilter) {
-      // For vehicle types, get all selected vehicle filters that match this filter category
-      return selectedFilters.filter(filter => 
-        vehicleTypeFilters.some((vf: FilterType) => vf.id === filter.id) &&
-        filters.some(f => f.id === filter.id)
+      return selectedFilters.filter((filter) =>
+        vehicleTypeFilters.some((vf) => vf.name === filter.name),
       );
     } else {
-      // For service types, get all selected service filters that match this filter category
-      return selectedFilters.filter(filter => 
-        serviceTypeFilters.some((sf: FilterType) => sf.id === filter.id) &&
-        filters.some(f => f.id === filter.id)
+      return selectedFilters.filter((filter) =>
+        serviceTypeFilters.some((sf) => sf.name === filter.name),
       );
     }
-  }, [selectedFilters, isVehicleFilter, vehicleTypeFilters, serviceTypeFilters, filters]);
+  }, [
+    selectedFilters,
+    isVehicleFilter,
+    vehicleTypeFilters,
+    serviceTypeFilters,
+  ]);
 
   function handleClick() {
     setIsActive(true);
@@ -59,7 +63,7 @@ export function Filter({
         </div>
         {isVehicleFilter &&
           selectedFilterItems.length === 0 &&
-          selectedFilters.some(f => serviceTypeFilters.some((sf: FilterType) => sf.id === f.id)) && (
+          selectedFilters.length > 0 && (
             <div className="text-xs text-amber-600">
               Please select a vehicle type
             </div>
@@ -74,7 +78,7 @@ export function Filter({
           <div className="w-full bg-none p-0 text-sm md:text-base">
             {selectedFilterItems.length > 0 ? (
               <div className="text-neutral-800">
-                {selectedFilterItems.map(f => f.name).join(", ")}
+                {selectedFilterItems.map((f) => f.name).join(", ")}
               </div>
             ) : (
               <div className="text-neutral-400">Select {name}</div>

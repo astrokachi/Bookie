@@ -13,8 +13,12 @@ export default function Filters() {
   const [repairServices, setRepairServices] = useState<Filter[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const isFilterVisible = useBookingStore((state) => state.isFilterVisible);
-  const setVehicleTypeFilters = useBookingStore((state) => state.setVehicleTypeFilters);
-  const setServiceTypeFilters = useBookingStore((state) => state.setServiceTypeFilters);
+  const setVehicleTypeFilters = useBookingStore(
+    (state) => state.setVehicleTypeFilters,
+  );
+  const setServiceTypeFilters = useBookingStore(
+    (state) => state.setServiceTypeFilters,
+  );
 
   async function fetchFilters() {
     try {
@@ -26,8 +30,8 @@ export default function Filters() {
 
       setCarTypes(carData.data);
       setRepairServices(repairServiceData.data);
-      
-      // Store these in our global state for reference
+
+      // Store the vehicle and service filter arrays in the global store
       setVehicleTypeFilters(carData.data);
       setServiceTypeFilters(repairServiceData.data);
     } catch (error) {
@@ -47,6 +51,7 @@ export default function Filters() {
         <h1 className="text-2xl font-bold text-neutral-800">Filters</h1>
         <div className="mt-4 px-2 md:px-12">
           {isLoading ? (
+            // Loading skeleton
             <div className="space-y-5">
               {[1, 2].map((i) => (
                 <div key={i} className="animate-pulse">
