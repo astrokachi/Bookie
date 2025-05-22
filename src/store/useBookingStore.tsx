@@ -152,6 +152,16 @@ export const useBookingStore = create(
             selectedFilters: [],
           }));
         },
+        setVehicleTypeFilters: (filters: Filter[]) => {
+          set(() => ({
+            vehicleTypeFilters: filters,
+          }));
+        },
+        setServiceTypeFilters: (filters: Filter[]) => {
+          set(() => ({
+            serviceTypeFilters: filters,
+          }));
+        },
       };
     },
   ),

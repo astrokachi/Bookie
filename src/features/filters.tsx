@@ -43,6 +43,7 @@ export default function Filters() {
 
   useEffect(() => {
     fetchFilters();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
