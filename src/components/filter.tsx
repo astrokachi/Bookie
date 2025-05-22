@@ -18,16 +18,31 @@ export function Filter({
 
   const [isActive, setIsActive] = useState(false);
 
+  // Determine if this is a vehicle filter
+  const isVehicleFilter = name.includes("Vehicle");
+
+  // Get selected filters for the specific filter type
   const selectedFilter = useMemo(() => {
-    return selectedFilters.find((filter) =>
-      filters.some((f) => f.id === filter.id),
-    );
-  }, [selectedFilters, filters]);
+    if (isVehicleFilter) {
+      // For vehicle types, find the vehicle filter among selected filters
+      return selectedFilters.find((filter) =>
+        filters.some((f) => f.id === filter.id)
+      );
+    } else {
+      // For service types, find all service filters among selected filters
+      const serviceFilters = selectedFilters.filter((filter) =>
+        filters.some((f) => f.id === filter.id)
+      );
+      
+      // Return the first service filter if any (for display purposes)
+      return serviceFilters.length > 0 ? serviceFilters[0] : undefined;
+    }
+  }, [selectedFilters, filters, isVehicleFilter]);
 
   function handleClick() {
     setIsActive(true);
 
-    const filterType = name.includes("Vehicle") ? "vehicle" : "service";
+    const filterType = isVehicleFilter ? "vehicle" : "service";
 
     toggleFilterVisibility(filterType);
     setFilterData(filters);
@@ -56,10 +71,25 @@ export function Filter({
       >
         <div className="flex-1">
           <div className="w-full bg-none p-0 text-sm md:text-base">
-            {selectedFilter ? (
-              <div className="text-neutral-800">{selectedFilter.name}</div>
+            {isVehicleFilter ? (
+              // For vehicle types, display single selection
+              selectedFilter ? (
+                <div className="text-neutral-800">{selectedFilter.name}</div>
+              ) : (
+                <div className="text-neutral-400">Select {name}</div>
+              )
             ) : (
-              <div className="text-neutral-400">Select {name}</div>
+              // For service types, display multiple selections or default text
+              selectedFilters.some(f => filters.some(filter => filter.id === f.id)) ? (
+                <div className="text-neutral-800">
+                  {selectedFilters
+                    .filter(f => filters.some(filter => filter.id === f.id))
+                    .map(f => f.name)
+                    .join(", ")}
+                </div>
+              ) : (
+                <div className="text-neutral-400">Select {name}</div>
+              )
             )}
           </div>
         </div>
