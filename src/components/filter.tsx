@@ -15,29 +15,30 @@ export function Filter({
     (state) => state.toggleFilterVisibility,
   );
   const selectedFilters = useBookingStore((state) => state.selectedFilters);
+  const vehicleTypeFilters = useBookingStore(state => state.vehicleTypeFilters);
+  const serviceTypeFilters = useBookingStore(state => state.serviceTypeFilters);
 
   const [isActive, setIsActive] = useState(false);
 
   // Determine if this is a vehicle filter
   const isVehicleFilter = name.includes("Vehicle");
-
+  
   // Get selected filters for the specific filter type
-  const selectedFilter = useMemo(() => {
+  const selectedFilterItems = useMemo(() => {
     if (isVehicleFilter) {
-      // For vehicle types, find the vehicle filter among selected filters
-      return selectedFilters.find((filter) =>
-        filters.some((f) => f.id === filter.id)
+      // For vehicle types, get all selected vehicle filters that match this filter category
+      return selectedFilters.filter(filter => 
+        vehicleTypeFilters.some((vf: FilterType) => vf.id === filter.id) &&
+        filters.some(f => f.id === filter.id)
       );
     } else {
-      // For service types, find all service filters among selected filters
-      const serviceFilters = selectedFilters.filter((filter) =>
-        filters.some((f) => f.id === filter.id)
+      // For service types, get all selected service filters that match this filter category
+      return selectedFilters.filter(filter => 
+        serviceTypeFilters.some((sf: FilterType) => sf.id === filter.id) &&
+        filters.some(f => f.id === filter.id)
       );
-      
-      // Return the first service filter if any (for display purposes)
-      return serviceFilters.length > 0 ? serviceFilters[0] : undefined;
     }
-  }, [selectedFilters, filters, isVehicleFilter]);
+  }, [selectedFilters, isVehicleFilter, vehicleTypeFilters, serviceTypeFilters, filters]);
 
   function handleClick() {
     setIsActive(true);
@@ -56,9 +57,9 @@ export function Filter({
         <div className="text-xs text-neutral-600 md:text-sm">
           <label htmlFor={name}>{name}</label>
         </div>
-        {name.includes("Vehicle") &&
-          !selectedFilter &&
-          selectedFilters.length > 0 && (
+        {isVehicleFilter &&
+          selectedFilterItems.length === 0 &&
+          selectedFilters.some(f => serviceTypeFilters.some((sf: FilterType) => sf.id === f.id)) && (
             <div className="text-xs text-amber-600">
               Please select a vehicle type
             </div>
@@ -71,25 +72,12 @@ export function Filter({
       >
         <div className="flex-1">
           <div className="w-full bg-none p-0 text-sm md:text-base">
-            {isVehicleFilter ? (
-              // For vehicle types, display single selection
-              selectedFilter ? (
-                <div className="text-neutral-800">{selectedFilter.name}</div>
-              ) : (
-                <div className="text-neutral-400">Select {name}</div>
-              )
+            {selectedFilterItems.length > 0 ? (
+              <div className="text-neutral-800">
+                {selectedFilterItems.map(f => f.name).join(", ")}
+              </div>
             ) : (
-              // For service types, display multiple selections or default text
-              selectedFilters.some(f => filters.some(filter => filter.id === f.id)) ? (
-                <div className="text-neutral-800">
-                  {selectedFilters
-                    .filter(f => filters.some(filter => filter.id === f.id))
-                    .map(f => f.name)
-                    .join(", ")}
-                </div>
-              ) : (
-                <div className="text-neutral-400">Select {name}</div>
-              )
+              <div className="text-neutral-400">Select {name}</div>
             )}
           </div>
         </div>

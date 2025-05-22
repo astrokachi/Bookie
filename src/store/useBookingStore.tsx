@@ -31,6 +31,8 @@ export const useBookingStore = create(
       filters: [] as Filter[],
       filterType: "" as "vehicle" | "service" | "",
       selectedFilters: [] as Filter[],
+      vehicleTypeFilters: [] as Filter[],
+      serviceTypeFilters: [] as Filter[],
       selectedStation: null as Station | null,
       timeSlots: [] as TimeSlot[],
       selectedTimeSlot: null as TimeSlot | null,
@@ -70,6 +72,16 @@ export const useBookingStore = create(
         setFilters: (filters: Filter[]) => {
           set(() => ({
             filters: filters,
+          }));
+        },
+        setVehicleTypeFilters: (filters: Filter[]) => {
+          set(() => ({
+            vehicleTypeFilters: filters,
+          }));
+        },
+        setServiceTypeFilters: (filters: Filter[]) => {
+          set(() => ({
+            serviceTypeFilters: filters,
           }));
         },
         setSelectedFilters: (filters: Filter[]) => {
