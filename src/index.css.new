@@ -1,13 +1,14 @@
+/* filepath: /home/kachi/Documents/Github/Bookie/src/index.css */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 @import "tailwindcss";
 
-@theme {
+@theme{
   --color-primary-blue: #0870A7;
   --color-light-bg: rgba(252, 253, 253, 0.753);
 }
 
 :root {
-  font-family: Plus Jakarta Sans, system-ui, sans-serif;
+  font-family: Plus Jakarta Sans,system-ui,sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

@@ -1,0 +1,72 @@
+import { useBookingStore } from "../store/useBookingStore";
+import { useState, useEffect } from "react";
+
+export function Feedback() {
+  const { selectedFilters, currentStep } = useBookingStore((state) => ({
+    selectedFilters: state.selectedFilters,
+    currentStep: state.currentStep,
+  }));
+
+  const [feedbackState, setFeedbackState] = useState({
+    message: null as string | null,
+    visible: false
+  });
+
+  // Remove the dependency on feedbackState to break the loop
+  useEffect(() => {
+    let newMessage: string | null = null;
+    let shouldBeVisible = false;
+    
+    // Only show messages when we're in selecting stations phase
+    if (currentStep === "selecting-station") {
+      // Check if a vehicle type is selected
+      const hasVehicle = selectedFilters.some(
+        (filter) =>
+          filter.name.includes("Toyota") ||
+          filter.name.includes("Honda") ||
+          filter.name.includes("Nissan") ||
+          filter.name.includes("BMW") ||
+          filter.name.includes("Ford"),
+      );
+
+      if (selectedFilters.length > 0 && !hasVehicle) {
+        newMessage = "Please select a vehicle type for better results";
+        shouldBeVisible = true;
+      }
+    }
+    
+    // Only update state if values have actually changed
+    const messageChanged = feedbackState.message !== newMessage;
+    const visibilityChanged = feedbackState.visible !== shouldBeVisible;
+    
+    if (messageChanged || visibilityChanged) {
+      setFeedbackState({
+        message: newMessage,
+        visible: shouldBeVisible
+      });
+    }
+  }, [selectedFilters, currentStep]); // Removed feedbackState from dependencies
+
+  const handleClose = () => {
+    setFeedbackState(prev => ({
+      ...prev,
+      visible: false
+    }));
+  };
+
+  if (!feedbackState.visible || !feedbackState.message) return null;
+
+  return (
+    <div className="animate-fadeInDown fixed top-16 right-0 left-0 z-30 mx-auto max-w-md rounded-md bg-amber-50 p-3 shadow-md">
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-amber-800">{feedbackState.message}</p>
+        <button
+          className="text-amber-700 hover:text-amber-900"
+          onClick={handleClose}
+        >
+          ×
+        </button>
+      </div>
+    </div>
+  );
+}

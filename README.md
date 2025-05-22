@@ -1,54 +1,97 @@
-# React + TypeScript + Vite
+# Bookie - Car Service Booking App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web application for booking car repair services, built with React and TailwindCSS.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🚗 Vehicle type and repair service filtering
+- 🔍 Search functionality for repair stations
+- 📅 Time slot selection for appointments
+- ✅ Form validation for booking details
+- 📱 Responsive design for all devices
+- 🎉 Animated confirmation screen
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Frontend**: React 19 with TypeScript
+- **Styling**: TailwindCSS 4
+- **State Management**: Zustand
+- **API Mocking**: Mock Service Worker (MSW)
+- **Date Management**: date-fns
+- **Icons**: React Icons
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18.x or higher
+- npm or yarn
+
+### Installation
+
+1. Clone this repository
+
+```bash
+git clone https://github.com/yourusername/bookie.git
+cd bookie
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Install dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm install
 ```
+
+3. Start the development server
+
+```bash
+npm run dev
+```
+
+4. Open your browser and navigate to `http://localhost:5173`
+
+## Usage Guide
+
+### 1. Select Vehicle and Service
+
+- Choose your vehicle type (sedan, SUV, truck, etc.)
+- Select repair services you need (oil change, tire rotation, etc.)
+- Apply filters to find suitable stations
+
+### 2. Browse Repair Stations
+
+- View stations that match your criteria
+- Search for specific station names
+- See ratings and services offered
+
+### 3. Book an Appointment
+
+- Select a repair station
+- Choose an available date and time
+- Fill in your contact details
+- Confirm your booking
+
+### 4. Confirmation
+
+- Receive booking confirmation
+- View booking summary with all details
+
+## Project Structure
+
+```
+bookie/
+├── src/
+│   ├── components/         # Reusable UI components
+│   │   ├── modals/         # Modal components
+│   │   └── ...
+│   ├── features/           # Feature-specific components
+│   ├── store/              # State management
+│   ├── mocks/              # API mocking
+│   └── App.tsx             # Main app component
+├── public/                 # Static assets
+└── ...
+```
+
+## License
+
+This project is licensed under the MIT License
